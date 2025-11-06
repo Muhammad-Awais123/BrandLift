@@ -47,7 +47,7 @@ const Teams = () => {
             <motion.img 
               src={team.image} 
               alt="" 
-              className='w-14 h-14 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700'
+              className='w-14 h-14 rounded-full object-fit border-2 border-gray-200 dark:border-gray-700'
               whileHover={{ scale: 1.1, rotate: 2 }}
               transition={{ duration: 0.3 }}
             />

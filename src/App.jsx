@@ -7,18 +7,17 @@ import OurWork from './components/OurWork'
 import Products from './components/Products'
 import Teams from './components/Teams'
 import ContactUs from './components/ContactUs'
-import {Toaster} from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast'
 import Footer from './components/Footer'
+import { CartProvider } from "./context/CartContext"   // ✅ ADD THIS
 
 const App = () => {
 
   const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light')
 
-
   const dotRef = useRef(null)
   const outlineRef = useRef(null)
 
-  // Refs for custom cursor Position tracking
   const mouse = useRef({x: 0, y: 0})
   const position = useRef({x: 0, y: 0})
 
@@ -50,28 +49,29 @@ const App = () => {
 
   },[])
  
-
   return (
-    <div className='dark:bg-black relative'>
-      <Toaster />
-      <Navbar theme={theme} setTheme={setTheme}/>
-      <Hero />
-      <TrustedBy />
-      <Services />
-      <OurWork />
-      <Products/>
-      <Teams />
-      <ContactUs />
-      <Footer theme={theme}/>
+    <CartProvider>   {/* ✅ FIXED WRAPPER */}
+      <div className='dark:bg-black relative'>
+        <Toaster />
+        <Navbar theme={theme} setTheme={setTheme}/>
+        <Hero />
+        <TrustedBy />
+        <Services />
+        <OurWork />
+        <Products/>
+        <Teams />
+        <ContactUs />
+        <Footer theme={theme}/>
 
-    {/* Custom Cursor Ring */}
-    <div ref={outlineRef} className='fixed top-0 left-0 h-10 w-10 rounded-full border border-primary pointer-events-none z-[9999]'
-     style={{transition: 'transform 0.1s ease-out'}}></div>
+        {/* Custom Cursor Ring */}
+        <div ref={outlineRef} className='fixed top-0 left-0 h-10 w-10 rounded-full border border-primary pointer-events-none z-[9999]'
+        style={{transition: 'transform 0.1s ease-out'}}></div>
 
-    {/* Custom Cursor Dot */}
-    <div ref={dotRef} className='fixed top-0 left-0 h-3 w-3 rounded-full bg-primary pointer-events-none z-[9999]'></div>
+        {/* Custom Cursor Dot */}
+        <div ref={dotRef} className='fixed top-0 left-0 h-3 w-3 rounded-full bg-primary pointer-events-none z-[9999]'></div>
 
-    </div>
+      </div>
+    </CartProvider>
   )
 }
 

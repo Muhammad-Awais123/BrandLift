@@ -75,34 +75,34 @@ const assets = {
 export default assets
 
 export const teamData = [
-  { 
-    name: 'Arfa', 
-    title: 'CEO & Meta Ads Expert', 
+  {
+    name: 'Faisal',
+    title: 'CEO',
+    image: male
+  },
+  {
+    name: 'Arfa',
+    title: 'CEO & Meta Ads Expert',
     image: female
   },
-  { 
-    name: 'Faisal', 
-    title: 'CEO', 
-    image: male
-  },
-  { 
-    name: 'Fatima', 
-    title: 'Graphic Designer', 
+  {
+    name: 'Fatima',
+    title: 'Graphic Designer',
     image: female
   },
-  { 
-    name: 'Haris', 
-    title: 'Marketing & Sales', 
+  {
+    name: 'Haris',
+    title: 'Marketing & Sales',
     image: male
   },
-  { 
-    name: 'Asim Ali', 
-    title: 'Full Stack Web Developer', 
+  {
+    name: 'Asim Ali',
+    title: 'Full Stack Web Developer',
     image: male
   },
-  { 
-    name: 'Haseeb', 
-    title: 'Digital Product Seller', 
+  {
+    name: 'Haseeb',
+    title: 'Digital Product Seller',
     image: male
   },
 ]
