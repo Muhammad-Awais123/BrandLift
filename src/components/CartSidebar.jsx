@@ -6,7 +6,7 @@ import { useCart } from "../context/CartContext";
 import CheckoutModal from "./CheckoutModal";
 
 const CartSidebar = ({ open, onClose }) => {
-  const { items, updateQty, removeFromCart, total, clearCart } = useCart();
+  const { items, updateQty, removeFromCart, clearCart } = useCart();
   const [checkoutOpen, setCheckoutOpen] = React.useState(false);
 
   return (
@@ -37,17 +37,25 @@ const CartSidebar = ({ open, onClose }) => {
                 {items.map((it, idx) => (
                   <div key={idx} className="flex gap-3 items-center">
                     <div className="w-16 h-16 rounded-lg bg-white/30 flex items-center justify-center border">
-                      <img src={it.icon} alt={it.title} className="max-w-full max-h-full object-contain" />
+                      <img
+                        src={it.icon}
+                        alt={it.title}
+                        className="max-w-full max-h-full object-contain"
+                      />
                     </div>
+
                     <div className="flex-1">
                       <p className="font-medium">{it.title}</p>
-                      <p className="text-sm opacity-75">${it.price} each</p>
+                      <p className="text-sm opacity-75">{it.price}</p> {/* ✅ show range directly */}
+
                       <div className="mt-2 flex items-center gap-2">
                         <input
                           type="number"
                           min={1}
                           value={it.qty}
-                          onChange={(e) => updateQty(it.title, Number(e.target.value))}
+                          onChange={(e) =>
+                            updateQty(it.title, Number(e.target.value))
+                          }
                           className="w-20 rounded border px-2 py-1 text-sm bg-transparent"
                         />
                         <button
@@ -58,27 +66,26 @@ const CartSidebar = ({ open, onClose }) => {
                         </button>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="font-semibold">${Number(it.price * it.qty).toFixed(2)}</p>
-                    </div>
                   </div>
                 ))}
 
                 <div className="border-t pt-4 mt-2">
                   <div className="flex justify-between items-center mb-3">
-                    <p className="font-semibold">Total</p>
-                    <p className="font-bold text-lg">${total.toFixed(2)}</p>
+                    <p className="font-semibold">Price Range</p>
+                    <p className="font-bold text-lg text-primary">
+                      Based on product selection
+                    </p>
                   </div>
 
                   <div className="flex gap-3">
                     <button
-                      onClick={() => { setCheckoutOpen(true); }}
+                      onClick={() => setCheckoutOpen(true)}
                       className="flex-1 bg-primary text-white rounded-lg px-4 py-2"
                     >
                       Proceed to Payment
                     </button>
                     <button
-                      onClick={() => clearCart()}
+                      onClick={clearCart}
                       className="flex-1 border rounded-lg px-4 py-2"
                     >
                       Clear
@@ -91,11 +98,7 @@ const CartSidebar = ({ open, onClose }) => {
         </div>
       )}
 
-      {checkoutOpen && (
-        <CheckoutModal
-          onClose={() => setCheckoutOpen(false)}
-        />
-      )}
+      {checkoutOpen && <CheckoutModal onClose={() => setCheckoutOpen(false)} />}
     </>
   );
 };

@@ -1,7 +1,7 @@
 // src/components/CheckoutModal.jsx
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { X, Copy } from "lucide-react";
+import { X } from "lucide-react";
 import { useCart } from "../context/CartContext";
 
 const BANK_DETAILS = {
@@ -11,12 +11,11 @@ const BANK_DETAILS = {
   bankName: "Bank Al Habib",
 };
 const EMAIL = "Brandliftagency2024@gmail.com";
-const DEMO_KEY = "demo_access_key_1234567890";
+const ACCESS_KEY = "29434e4f-7d15-41f7-826b-e58664b70447";
 
 const CheckoutModal = ({ onClose }) => {
-  const { items, total, clearCart } = useCart();
+  const { items, clearCart } = useCart();
   const [submitting, setSubmitting] = useState(false);
-  const [file, setFile] = useState(null);
 
   const copyBank = async () => {
     const text = `Account Title: ${BANK_DETAILS.accountTitle}\nBank: ${BANK_DETAILS.bankName}\nA/C No: ${BANK_DETAILS.accountNumber}\nIBAN: ${BANK_DETAILS.iban}\nEmail: ${EMAIL}`;
@@ -34,22 +33,21 @@ const CheckoutModal = ({ onClose }) => {
       alert("Your cart is empty.");
       return;
     }
-    setSubmitting(true);
 
+    setSubmitting(true);
     const form = new FormData(e.target);
-    form.append("access_key", DEMO_KEY);
-    form.append("items", JSON.stringify(items.map(it => ({title: it.title, price: it.price, qty: it.qty}))));
-    form.append("total", total.toFixed(2));
-    if (file) form.append("payment_screenshot", file);
+    form.append("access_key", ACCESS_KEY);
+    form.append("items", JSON.stringify(items.map(it => ({ title: it.title, range: it.price }))));
 
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        body: form
+        body: form,
       });
       const data = await res.json();
+
       if (data.success) {
-        alert("Order submitted! We will contact you soon.");
+        alert("Order submitted successfully! We'll contact you soon.");
         clearCart();
         onClose();
       } else {
@@ -72,12 +70,17 @@ const CheckoutModal = ({ onClose }) => {
         transition={{ duration: 0.18 }}
         className="relative z-50 w-full max-w-2xl rounded-2xl p-5 bg-white dark:bg-gray-900"
       >
-        <button onClick={onClose} className="absolute right-4 top-4 rounded-full p-1 hover:bg-gray-100 dark:hover:bg-gray-800">
+        <button
+          onClick={onClose}
+          className="absolute right-4 top-4 rounded-full p-1 hover:bg-gray-100 dark:hover:bg-gray-800"
+        >
           <X size={18} />
         </button>
 
         <h3 className="text-lg font-semibold mb-2">Payment & Order Details</h3>
-        <p className="text-sm opacity-70 mb-4">Send payment to bank and upload screenshot below. We'll notify you by email.</p>
+        <p className="text-sm opacity-70 mb-4">
+          Send payment to the bank account below. We’ll notify you by email after verification.
+        </p>
 
         <div className="rounded-lg p-4 bg-white/50 dark:bg-black/40 border mb-4">
           <div className="flex justify-between items-start">
@@ -89,8 +92,15 @@ const CheckoutModal = ({ onClose }) => {
               <p className="text-sm">IBAN: {BANK_DETAILS.iban}</p>
             </div>
             <div className="flex flex-col gap-2 items-end">
-              <button onClick={copyBank} className="text-sm underline">Copy Details</button>
-              <a className="text-sm underline" href={`mailto:${EMAIL}?subject=${encodeURIComponent("Order from Website")}`}>{EMAIL}</a>
+              <button onClick={copyBank} className="text-sm underline">
+                Copy Details
+              </button>
+              <a
+                className="text-sm underline"
+                href={`mailto:${EMAIL}?subject=${encodeURIComponent("Order from Website")}`}
+              >
+                {EMAIL}
+              </a>
             </div>
           </div>
         </div>
@@ -109,18 +119,12 @@ const CheckoutModal = ({ onClose }) => {
 
           <div>
             <label className="text-sm mb-1 block">Message (optional)</label>
-            <textarea name="message" rows={4} className="w-full rounded border px-3 py-2" placeholder="Any details, reference or WhatsApp number"></textarea>
-          </div>
-
-          <div>
-            <label className="text-sm mb-1 block">Upload Payment Screenshot (jpg, png, pdf)</label>
-            <input
-              name="file"
-              type="file"
-              accept=".jpg,.jpeg,.png,.webp,.pdf"
-              onChange={(e) => setFile(e.target.files[0])}
-              className="w-full"
-            />
+            <textarea
+              name="message"
+              rows={4}
+              className="w-full rounded border px-3 py-2"
+              placeholder="Any details, reference, or WhatsApp number"
+            ></textarea>
           </div>
 
           <div className="pt-2 border-t">
@@ -129,20 +133,21 @@ const CheckoutModal = ({ onClose }) => {
               {items.map((it, i) => (
                 <div key={i} className="flex justify-between text-sm py-1">
                   <div>{it.title} x {it.qty}</div>
-                  <div>${(it.price * it.qty).toFixed(2)}</div>
+                  <div>{it.price}</div>
                 </div>
               ))}
-            </div>
-
-            <div className="flex justify-between items-center mt-3">
-              <p className="font-semibold">Total</p>
-              <p className="font-bold text-lg">${total.toFixed(2)}</p>
             </div>
           </div>
 
           <div className="flex gap-3 mt-3">
-            <button type="button" onClick={onClose} className="flex-1 border rounded-lg px-4 py-2">Cancel</button>
-            <button type="submit" disabled={submitting} className="flex-1 bg-primary text-white rounded-lg px-4 py-2">
+            <button type="button" onClick={onClose} className="flex-1 border rounded-lg px-4 py-2">
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="flex-1 bg-primary text-white rounded-lg px-4 py-2"
+            >
               {submitting ? "Submitting..." : "Submit Order"}
             </button>
           </div>

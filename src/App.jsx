@@ -9,7 +9,7 @@ import Teams from './components/Teams'
 import ContactUs from './components/ContactUs'
 import { Toaster } from 'react-hot-toast'
 import Footer from './components/Footer'
-import { CartProvider } from "./context/CartContext"   // ✅ ADD THIS
+import { CartProvider } from "./context/CartContext.jsx"   
 
 const App = () => {
 
@@ -50,7 +50,7 @@ const App = () => {
   },[])
  
   return (
-    <CartProvider>   {/* ✅ FIXED WRAPPER */}
+    <CartProvider>   
       <div className='dark:bg-black relative'>
         <Toaster />
         <Navbar theme={theme} setTheme={setTheme}/>
