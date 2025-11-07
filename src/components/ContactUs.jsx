@@ -10,8 +10,8 @@ const ContactUs = () => {
         event.preventDefault();
 
         const formData = new FormData(event.target);
-
-        // ------- Enter your Web3Forms key below -----
+ 
+        
         formData.append("access_key", "29434e4f-7d15-41f7-826b-e58664b70447");
 
         try {
