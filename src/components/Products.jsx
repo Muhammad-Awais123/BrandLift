@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Title from "./Title";
 import { Share2, ShoppingCart } from "lucide-react";
-import { useCart } from "../context/Cartcontext.jsx";
+import { useCart } from "../context/CartContext";
 import CartSidebar from "./CartSidebar";
 
 // assets

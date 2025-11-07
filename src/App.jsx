@@ -9,7 +9,7 @@ import Teams from './components/Teams'
 import ContactUs from './components/ContactUs'
 import { Toaster } from 'react-hot-toast'
 import Footer from './components/Footer'
-import { CartProvider } from "./context/CartContext.jsx"   
+import { CartProvider } from "./context/CartContext"   
 
 const App = () => {
 
