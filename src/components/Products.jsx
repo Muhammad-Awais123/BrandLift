@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import Title from "./Title";
 import { Share2, ShoppingCart } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import CartSidebar from "./CartSidebar";
+import SelectAmountModal from "./SelectAmountModal";
 
 // assets
 import product_amazon from "../assets/product_amazon.jpeg";
@@ -50,6 +50,7 @@ const productsData = [
 
 const Products = () => {
   const [showCart, setShowCart] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const { addToCart, count } = useCart();
 
   const handleShare = async (product) => {
@@ -81,13 +82,13 @@ const Products = () => {
         viewport={{ once: true }}
         className="relative px-6 sm:px-12 text-center lg:px-20 xl:px-36 py-20 "
       >
-        <h1 className="font-bold text-4xl md:text-5xl  text-center">
-  Featured Products
-</h1>
+        <h1 className="font-bold text-4xl md:text-5xl text-center">
+          Featured Products
+        </h1>
 
-        <p>Glassmorphism cards — Buy Now and checkout using bank transfer upload.</p>
-        
-
+        <p className="mt-2 text-gray-300">
+          Glassmorphism cards — Buy Now and checkout using bank transfer upload.
+        </p>
 
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {productsData.map((product, i) => (
@@ -108,14 +109,12 @@ const Products = () => {
                 <h3 className="text-lg font-semibold mt-2 text-white">
                   {product.title}
                 </h3>
-                <p className="text-sm text-black-300">{product.description}</p>
-                <p className="font-bold text-blue-800 text-base">
-                  {product.range}
-                </p>
+                <p className="text-sm text-gray-300">{product.description}</p>
+                <p className="font-bold text-blue-400 text-base">{product.range}</p>
 
                 <div className="flex gap-3 w-full mt-4 flex-wrap sm:flex-nowrap">
                   <button
-                    onClick={() => addToCart(product)}
+                    onClick={() => setSelectedProduct(product)}
                     className="flex-1 rounded-lg px-4 py-2 bg-gradient-to-r from-[#00b4d8] to-[#5e60ce] text-white font-semibold shadow hover:opacity-90 transition"
                   >
                     Buy Now
@@ -134,6 +133,18 @@ const Products = () => {
           ))}
         </div>
       </motion.section>
+
+      {/* Modal for selecting price */}
+      {selectedProduct && (
+        <SelectAmountModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+          onConfirm={(price) => {
+            addToCart({ ...selectedProduct, price });
+            setSelectedProduct(null);
+          }}
+        />
+      )}
 
       {/* Floating Cart Button */}
       <div className="fixed right-6 bottom-6 z-50">

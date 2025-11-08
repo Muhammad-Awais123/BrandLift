@@ -6,7 +6,7 @@ import { useCart } from "../context/CartContext";
 import CheckoutModal from "./CheckoutModal";
 
 const CartSidebar = ({ open, onClose }) => {
-  const { items, updateQty, removeFromCart, clearCart } = useCart();
+  const { items, updateQty, removeFromCart, clearCart, total } = useCart(); // ← total added here
   const [checkoutOpen, setCheckoutOpen] = React.useState(false);
 
   return (
@@ -46,7 +46,7 @@ const CartSidebar = ({ open, onClose }) => {
 
                     <div className="flex-1">
                       <p className="font-medium">{it.title}</p>
-                      <p className="text-sm opacity-75">{it.price}</p> {/* ✅ show range directly */}
+                      <p className="text-sm opacity-75">${it.price}</p>
 
                       <div className="mt-2 flex items-center gap-2">
                         <input
@@ -69,11 +69,12 @@ const CartSidebar = ({ open, onClose }) => {
                   </div>
                 ))}
 
+                {/* Total price section */}
                 <div className="border-t pt-4 mt-2">
                   <div className="flex justify-between items-center mb-3">
-                    <p className="font-semibold">Price Range</p>
+                    <p className="font-semibold">Total</p>
                     <p className="font-bold text-lg text-primary">
-                      Based on product selection
+                      $ {total}
                     </p>
                   </div>
 
