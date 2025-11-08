@@ -91,20 +91,20 @@ const Products = () => {
         </p>
 
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {productsData.map((product, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ scale: 1.03, y: -5 }}
-              className="group relative rounded-2xl p-5 bg-white/10 border border-white/20 backdrop-blur-2xl shadow-xl hover:shadow-2xl transition-all duration-300"
-            >
-              <div className="flex flex-col items-center text-center gap-4">
-                <div className="w-full h-48 rounded-xl overflow-hidden bg-white/5 flex items-center justify-center shadow-inner">
-                  <img
-                    src={product.icon}
-                    alt={product.title}
-                    className="object-contain w-full h-full rounded-xl transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
+  {productsData.map((product, i) => (
+    <motion.div
+      key={i}
+      whileHover={{ scale: 1.03, y: -5 }}
+      className="group relative rounded-2xl p-5 bg-white/10 border border-white/20 backdrop-blur-2xl shadow-xl hover:shadow-2xl transition-all duration-300"
+    >
+      <div className="flex flex-col items-center text-center gap-4">
+        <div className="w-full h-48 rounded-xl overflow-hidden bg-white/5 flex items-center justify-center shadow-inner">
+          <img
+            src={product.icon}
+            alt={product.title}
+            className="object-contain w-full h-full rounded-xl transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
 
                 <h3 className="text-lg font-semibold mt-2 text-white">
                   {product.title}
