@@ -109,6 +109,7 @@ const CheckoutModal = ({ onClose }) => {
           </div>
         </div>
 
+        {/* Checkout Form */}
         <form onSubmit={handleSubmit} className="grid gap-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
@@ -128,6 +129,18 @@ const CheckoutModal = ({ onClose }) => {
                 className="w-full rounded border px-3 py-2 text-sm sm:text-base"
               />
             </div>
+          </div>
+
+          {/* ✅ New Image Upload Field */}
+          <div>
+            <label className="text-sm mb-1 block">Upload Screenshot (Proof) </label>
+            <input
+            required
+              name="image"
+              type="file"
+              accept="image/*"
+              className="w-full rounded border px-3 py-2 text-sm sm:text-base"
+            />
           </div>
 
           <div>
