@@ -28,12 +28,12 @@ const productsData = [
     description: "Apps, music, movies and Apple services.",
     icon: product_apple_card,
   },
-  {
-    title: "Binance Gift Card",
-    range: "$500 - $25000",
-    description: "Fund your Binance account or transfer crypto.",
-    icon: binance,
-  },
+  // {
+  //   title: "Binance Gift Card",
+  //   range: "$500 - $25000",
+  //   description: "Fund your Binance account or transfer crypto.",
+  //   icon: binance,
+  // },
   {
     title: "American Express Gift Card",
     range: "$500 - $1000",
