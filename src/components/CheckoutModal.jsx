@@ -131,7 +131,6 @@ const CheckoutModal = ({ onClose }) => {
             </div>
           </div>
 
-          {/* ✅ New Image Upload Field */}
           <div>
             <label className="text-sm mb-1 block">Upload Screenshot (Proof) </label>
             <input
