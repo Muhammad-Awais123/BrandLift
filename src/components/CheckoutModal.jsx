@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 const BANK_DETAILS = {
   accountTitle: "BRAND LIFT AGENCY",
@@ -13,9 +14,12 @@ const BANK_DETAILS = {
 const EMAIL = "Brandliftagency2024@gmail.com";
 const ACCESS_KEY = "29434e4f-7d15-41f7-826b-e58664b70447";
 
+const SITE_KEY = "fe182cb6-1366-48f2-9398-b4c86d2666ac"; // Test key
+
 const CheckoutModal = ({ onClose }) => {
   const { items, clearCart, total } = useCart();
   const [submitting, setSubmitting] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
 
   const copyBank = async () => {
     const text = `Account Title: ${BANK_DETAILS.accountTitle}\nBank: ${BANK_DETAILS.bankName}\nA/C No: ${BANK_DETAILS.accountNumber}\nIBAN: ${BANK_DETAILS.iban}\nEmail: ${EMAIL}`;
@@ -29,17 +33,31 @@ const CheckoutModal = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (items.length === 0) {
       alert("Your cart is empty.");
       return;
     }
 
+    if (!captchaToken) {
+      alert("Please verify the captcha before submitting.");
+      return;
+    }
+
     setSubmitting(true);
     const form = new FormData(e.target);
+
     form.append("access_key", ACCESS_KEY);
+    form.append("h-captcha-response", captchaToken);
     form.append(
       "items",
-      JSON.stringify(items.map((it) => ({ title: it.title, range: it.price, qty: it.qty })))
+      JSON.stringify(
+        items.map((it) => ({
+          title: it.title,
+          range: it.price,
+          qty: it.qty,
+        }))
+      )
     );
     form.append("total", total);
 
@@ -48,6 +66,7 @@ const CheckoutModal = ({ onClose }) => {
         method: "POST",
         body: form,
       });
+
       const data = await res.json();
 
       if (data.success) {
@@ -81,7 +100,9 @@ const CheckoutModal = ({ onClose }) => {
           <X size={18} />
         </button>
 
-        <h3 className="text-lg sm:text-xl font-semibold mb-2">Payment & Order Details</h3>
+        <h3 className="text-lg sm:text-xl font-semibold mb-2">
+          Payment & Order Details
+        </h3>
         <p className="text-sm sm:text-base opacity-70 mb-4">
           Send payment to the bank account below. We’ll notify you by email after verification.
         </p>
@@ -109,7 +130,6 @@ const CheckoutModal = ({ onClose }) => {
           </div>
         </div>
 
-        {/* Checkout Form */}
         <form onSubmit={handleSubmit} className="grid gap-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
@@ -132,17 +152,6 @@ const CheckoutModal = ({ onClose }) => {
           </div>
 
           <div>
-            <label className="text-sm mb-1 block">Upload Screenshot (Proof) </label>
-            <input
-            required
-              name="image"
-              type="file"
-              accept="image/*"
-              className="w-full rounded border px-3 py-2 text-sm sm:text-base"
-            />
-          </div>
-
-          <div>
             <label className="text-sm mb-1 block">Message (optional)</label>
             <textarea
               name="message"
@@ -150,6 +159,11 @@ const CheckoutModal = ({ onClose }) => {
               className="w-full rounded border px-3 py-2 text-sm sm:text-base"
               placeholder="Any details, reference, or WhatsApp number"
             ></textarea>
+          </div>
+
+          {/* hCaptcha Widget */}
+          <div className="mt-2">
+            <HCaptcha sitekey={SITE_KEY} onVerify={setCaptchaToken} />
           </div>
 
           <div className="pt-2 border-t">
