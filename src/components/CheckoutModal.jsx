@@ -14,7 +14,7 @@ const BANK_DETAILS = {
 const EMAIL = "Brandliftagency2024@gmail.com";
 const ACCESS_KEY = "29434e4f-7d15-41f7-826b-e58664b70447";
 
-const SITE_KEY = "fe182cb6-1366-48f2-9398-b4c86d2666ac"; // Test key
+const SITE_KEY = "2f122a86-6a10-4f80-a874-b10c7b86334c"; // Test key
 
 const CheckoutModal = ({ onClose }) => {
   const { items, clearCart, total } = useCart();
