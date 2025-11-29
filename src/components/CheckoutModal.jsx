@@ -1,4 +1,5 @@
 // src/components/CheckoutModal.jsx
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
@@ -11,10 +12,12 @@ const BANK_DETAILS = {
   iban: "PK93BAHL0043098101274901",
   bankName: "Bank Al Habib",
 };
+
 const EMAIL = "Brandliftagency2024@gmail.com";
 const ACCESS_KEY = "29434e4f-7d15-41f7-826b-e58664b70447";
 
-const SITE_KEY = "2f122a86-6a10-4f80-a874-b10c7b86334c"; // Test key
+// Your hCaptcha site key:
+const SITE_KEY = "a700a40c-5b74-4e8c-bcd8-86da0132bd8a";
 
 const CheckoutModal = ({ onClose }) => {
   const { items, clearCart, total } = useCart();
@@ -22,7 +25,11 @@ const CheckoutModal = ({ onClose }) => {
   const [captchaToken, setCaptchaToken] = useState("");
 
   const copyBank = async () => {
-    const text = `Account Title: ${BANK_DETAILS.accountTitle}\nBank: ${BANK_DETAILS.bankName}\nA/C No: ${BANK_DETAILS.accountNumber}\nIBAN: ${BANK_DETAILS.iban}\nEmail: ${EMAIL}`;
+    const text = `Account Title: ${BANK_DETAILS.accountTitle}
+Bank: ${BANK_DETAILS.bankName}
+A/C No: ${BANK_DETAILS.accountNumber}
+IBAN: ${BANK_DETAILS.iban}
+Email: ${EMAIL}`;
     try {
       await navigator.clipboard.writeText(text);
       alert("Bank details copied to clipboard.");
@@ -34,13 +41,13 @@ const CheckoutModal = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (items.length === 0) {
+    if (!items.length) {
       alert("Your cart is empty.");
       return;
     }
 
     if (!captchaToken) {
-      alert("Please verify the captcha before submitting.");
+      alert("Please complete the captcha.");
       return;
     }
 
@@ -74,7 +81,7 @@ const CheckoutModal = ({ onClose }) => {
         clearCart();
         onClose();
       } else {
-        alert("Submission failed: " + (data.message || "Unknown error"));
+        alert("Submission failed: " + data.message);
       }
     } catch (err) {
       alert("Submission error: " + err.message);
@@ -100,29 +107,23 @@ const CheckoutModal = ({ onClose }) => {
           <X size={18} />
         </button>
 
-        <h3 className="text-lg sm:text-xl font-semibold mb-2">
-          Payment & Order Details
-        </h3>
-        <p className="text-sm sm:text-base opacity-70 mb-4">
-          Send payment to the bank account below. We’ll notify you by email after verification.
-        </p>
+        <h3 className="text-lg sm:text-xl font-semibold mb-2">Payment & Order Details</h3>
 
         <div className="rounded-lg p-4 bg-white/50 dark:bg-black/40 border mb-4">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div className="flex-1">
-              <p className="text-xs sm:text-sm opacity-80">Bank Transfer Details</p>
+              <p className="text-xs opacity-80">Bank Transfer Details</p>
               <p className="font-semibold">{BANK_DETAILS.accountTitle}</p>
               <p className="text-sm">{BANK_DETAILS.bankName}</p>
               <p className="text-sm">A/C No: {BANK_DETAILS.accountNumber}</p>
               <p className="text-sm">IBAN: {BANK_DETAILS.iban}</p>
             </div>
+
             <div className="flex flex-col gap-2 items-start sm:items-end">
-              <button onClick={copyBank} className="text-sm underline">
-                Copy Details
-              </button>
+              <button onClick={copyBank} className="text-sm underline">Copy Details</button>
               <a
-                className="text-sm underline"
                 href={`mailto:${EMAIL}?subject=${encodeURIComponent("Order from Website")}`}
+                className="text-sm underline"
               >
                 {EMAIL}
               </a>
@@ -137,16 +138,17 @@ const CheckoutModal = ({ onClose }) => {
               <input
                 name="name"
                 required
-                className="w-full rounded border px-3 py-2 text-sm sm:text-base"
+                className="w-full rounded border px-3 py-2"
               />
             </div>
+
             <div>
               <label className="text-sm mb-1 block">Email</label>
               <input
                 name="email"
                 type="email"
                 required
-                className="w-full rounded border px-3 py-2 text-sm sm:text-base"
+                className="w-full rounded border px-3 py-2"
               />
             </div>
           </div>
@@ -156,47 +158,32 @@ const CheckoutModal = ({ onClose }) => {
             <textarea
               name="message"
               rows={4}
-              className="w-full rounded border px-3 py-2 text-sm sm:text-base"
+              className="w-full rounded border px-3 py-2"
               placeholder="Any details, reference, or WhatsApp number"
             ></textarea>
           </div>
 
-          {/* hCaptcha Widget */}
+          {/* hCaptcha */}
           <div className="mt-2">
-            <HCaptcha sitekey={SITE_KEY} onVerify={setCaptchaToken} />
-          </div>
-
-          <div className="pt-2 border-t">
-            <h4 className="font-semibold">Order Summary</h4>
-            <div className="max-h-52 sm:max-h-60 overflow-y-auto mt-2">
-              {items.map((it, i) => (
-                <div key={i} className="flex justify-between text-sm sm:text-base py-1">
-                  <div>
-                    {it.title} x {it.qty}
-                  </div>
-                  <div>$ {it.price}</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex justify-between font-semibold mt-2 border-t pt-2 text-sm sm:text-base">
-              <span>Total</span>
-              <span>$ {total}</span>
-            </div>
+            <HCaptcha
+              sitekey={SITE_KEY}
+              onVerify={setCaptchaToken}
+            />
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 mt-3">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 border rounded-lg px-4 py-2 text-sm sm:text-base"
+              className="flex-1 border rounded-lg px-4 py-2"
             >
               Cancel
             </button>
+
             <button
               type="submit"
               disabled={submitting}
-              className="flex-1 bg-primary text-white rounded-lg px-4 py-2 text-sm sm:text-base"
+              className="flex-1 bg-primary text-white rounded-lg px-4 py-2"
             >
               {submitting ? "Submitting..." : "Submit Order"}
             </button>
