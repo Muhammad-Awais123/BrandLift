@@ -2,27 +2,31 @@ import React from 'react'
 import Title from './Title'
 import { motion } from 'framer-motion'
 
-const reviewsData = [
+const teamData = [
   {
-    name: 'John Doe',
-    position: 'Client',
-    // image:'',
-    review: 'Great work and very professional.',
-    rating: 5
+    name: 'Faisal Rafique',
+    position: 'CEO',
+    review: 'Leads with clarity and direction, keeping the entire team focused and aligned.'
   },
   {
-    name: 'Sarah Ali',
-    position: 'Business Owner',
-    // image: '/path/to/image2.jpg', 
-    review: 'Amazing experience. Highly recommended.',
-    rating: 4
+    name: 'Arfa',
+    position: 'Meta Ads Expert',
+    review: 'Specializes in high-converting ad campaigns and brand scaling.'
   },
   {
-    name: 'David Khan',
-    position: 'Entrepreneur',
-    // image: '/path/to/image3.jpg',
-    review: 'Delivered exactly what I wanted.',
-    rating: 5
+    name: 'Areeha',
+    position: 'Graphic Designer',
+    review: 'Creates clean, expressive visuals that define the look and feel of our brand.'
+  },
+  {
+    name: 'Haris',
+    position: 'Marketing Expert',
+    review: 'Brings sharp creative strategy and market understanding to every campaign.'
+  },
+  {
+    name: 'Asim Ali',
+    position: 'Full Stack Web Developer',
+    review: 'Builds smooth, fast, and scalable web experiences from front to back.'
   }
 ]
 
@@ -31,64 +35,48 @@ const Team = () => {
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
       viewport={{ once: true }}
-      className='flex flex-col items-center gap-7 px-4 sm:px-12 lg:px-24 xl:px-40 pt-30 text-gray-800 dark:text-white'
+      className='flex flex-col items-center gap-8 px-6 sm:px-14 lg:px-24 xl:px-40 py-20 text-gray-800 dark:text-white'
     >
       <Title 
-        title='Client Reviews' 
-        desc='People who trusted us and shared their honest experience.'
+        title='Our Team' 
+        desc='The people who power our work and bring ideas to life.'
       />
 
-      <motion.div 
-        className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'
-        initial="hidden"
-        whileInView="visible"
+      <motion.div
+        className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'
+        initial='hidden'
+        whileInView='visible'
         viewport={{ once: true }}
-        variants={{
-          visible: { transition: { staggerChildren: 0.12 } }
-        }}
+        variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
       >
-        {reviewsData.map((client, index) => (
+        {teamData.map((member, index) => (
           <motion.div
             key={index}
             variants={{
               hidden: { opacity: 0, y: 30, scale: 0.9 },
               visible: { opacity: 1, y: 0, scale: 1 }
             }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
             whileHover={{ 
-              scale: 1.04, 
-              y: -4,
-              boxShadow: "0 12px 30px rgba(0,0,0,0.18)" 
+              scale: 1.05, 
+              y: -6,
+              boxShadow: '0 18px 40px rgba(0,0,0,0.15)'
             }}
-            className='flex flex-col gap-4 p-5 rounded-xl border border-gray-100 dark:border-gray-700 
-            bg-white/80 dark:bg-gray-900/70 backdrop-blur-lg shadow-lg 
-            hover:shadow-2xl hover:shadow-gray-300/30 dark:hover:shadow-white/10 
+            className='flex flex-col gap-4 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 
+            bg-white/80 dark:bg-gray-900/70 backdrop-blur-md shadow-md
+            hover:shadow-xl hover:shadow-gray-400/30 dark:hover:shadow-white/10
             transition-all duration-300 cursor-pointer'
           >
-            <div className='flex items-center gap-4'>
-              {/* <motion.img 
-                src={client.image} 
-                alt="" 
-                className='w-14 h-14 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700'
-                whileHover={{ scale: 1.1, rotate: 2 }}
-                transition={{ duration: 0.3 }}
-              /> */}
-              <div>
-                <h3 className='font-bold text-sm tracking-wide'>{client.name}</h3>
-                <p className='text-xs opacity-60'>{client.position}</p>
-              </div>
+            <div className='flex flex-col gap-1'>
+              <h3 className='font-semibold text-lg tracking-wide'>{member.name}</h3>
+              <p className='text-sm opacity-70'>{member.position}</p>
             </div>
 
             <p className='text-sm leading-relaxed opacity-90'>
-              {client.review}
+              {member.review}
             </p>
-
-            <div className='flex text-yellow-400 text-sm'>
-              {"★".repeat(client.rating)}
-              {"☆".repeat(5 - client.rating)}
-            </div>
           </motion.div>
         ))}
       </motion.div>
