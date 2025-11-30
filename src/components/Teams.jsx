@@ -1,87 +1,61 @@
 import React from 'react'
-import Title from './Title'
-import { motion } from 'framer-motion'
+import { teamData } from '../assets/assets'
 
-const teamData = [
-  {
-    name: 'Faisal Rafique',
-    position: 'CEO',
-    review: 'Leads with clarity and direction, keeping the entire team focused and aligned.'
-  },
-  {
-    name: 'Arfa',
-    position: 'Meta Ads Expert',
-    review: 'Specializes in high-converting ad campaigns and brand scaling.'
-  },
-  {
-    name: 'Areeha',
-    position: 'Graphic Designer',
-    review: 'Creates clean, expressive visuals that define the look and feel of our brand.'
-  },
-  {
-    name: 'Haris',
-    position: 'Marketing Expert',
-    review: 'Brings sharp creative strategy and market understanding to every campaign.'
-  },
-  {
-    name: 'Asim Ali',
-    position: 'Full Stack Web Developer',
-    review: 'Builds smooth, fast, and scalable web experiences from front to back.'
-  }
-]
-
-const Team = () => {
+export default function TeamSection() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      viewport={{ once: true }}
-      className='flex flex-col items-center gap-8 px-6 sm:px-14 lg:px-24 xl:px-40 py-20 text-gray-800 dark:text-white'
-    >
-      <Title 
-        title='Our Team' 
-        desc='The people who power our work and bring ideas to life.'
-      />
+    <section className="py-16 bg-gradient-to-b from-white to-gray-100">
+      <div className="max-w-6xl mx-auto px-6">
 
-      <motion.div
-        className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'
-        initial='hidden'
-        whileInView='visible'
-        viewport={{ once: true }}
-        variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
-      >
-        {teamData.map((member, index) => (
-          <motion.div
-            key={index}
-            variants={{
-              hidden: { opacity: 0, y: 30, scale: 0.9 },
-              visible: { opacity: 1, y: 0, scale: 1 }
-            }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-            whileHover={{ 
-              scale: 1.05, 
-              y: -6,
-              boxShadow: '0 18px 40px rgba(0,0,0,0.15)'
-            }}
-            className='flex flex-col gap-4 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 
-            bg-white/80 dark:bg-gray-900/70 backdrop-blur-md shadow-md
-            hover:shadow-xl hover:shadow-gray-400/30 dark:hover:shadow-white/10
-            transition-all duration-300 cursor-pointer'
-          >
-            <div className='flex flex-col gap-1'>
-              <h3 className='font-semibold text-lg tracking-wide'>{member.name}</h3>
-              <p className='text-sm opacity-70'>{member.position}</p>
+        {/* Heading */}
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-gray-900">
+            Our Team
+          </h2>
+          <p className="mt-3 text-gray-600 text-base max-w-xl mx-auto">
+            The people who shape ideas, build strategies, and drive BrandLift forward.
+          </p>
+        </div>
+
+        {/* Cards */}
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+          {teamData.map((member, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200
+                         hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+            >
+              <div className="flex justify-center">
+                <div className="relative">
+                  <img
+                    src={member.image}
+                    className="w-20 h-20 rounded-full object-cover shadow-md border-4 border-white
+                               group-hover:scale-105 transition-transform duration-300"
+                  />
+
+                  <div className="absolute inset-0 rounded-full blur-lg opacity-0 
+                                  bg-gradient-to-tr from-indigo-400 via-purple-400 to-pink-400 
+                                  group-hover:opacity-30 transition-all duration-500">
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-center mt-4">
+                <h3 className="text-xl font-semibold text-gray-900">
+                  {member.name}
+                </h3>
+                <p className="text-indigo-600 font-medium text-sm mt-1">
+                  {member.title}
+                </p>
+
+                <p className="text-gray-600 text-sm mt-3 leading-relaxed">
+                  Supporting BrandLift with creativity, strategy, and dedication.
+                </p>
+              </div>
             </div>
+          ))}
+        </div>
 
-            <p className='text-sm leading-relaxed opacity-90'>
-              {member.review}
-            </p>
-          </motion.div>
-        ))}
-      </motion.div>
-    </motion.div>
+      </div>
+    </section>
   )
 }
-
-export default Team
