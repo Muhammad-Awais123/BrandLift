@@ -1,10 +1,7 @@
-// src/components/CheckoutModal.jsx
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useCart } from "../context/CartContext";
-import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 const BANK_DETAILS = {
   accountTitle: "BRAND LIFT AGENCY",
@@ -16,13 +13,9 @@ const BANK_DETAILS = {
 const EMAIL = "Brandliftagency2024@gmail.com";
 const ACCESS_KEY = "29434e4f-7d15-41f7-826b-e58664b70447";
 
-// Your hCaptcha site key:
-const SITE_KEY = "a700a40c-5b74-4e8c-bcd8-86da0132bd8a";
-
 const CheckoutModal = ({ onClose }) => {
   const { items, clearCart, total } = useCart();
   const [submitting, setSubmitting] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState("");
 
   const copyBank = async () => {
     const text = `Account Title: ${BANK_DETAILS.accountTitle}
@@ -46,16 +39,10 @@ Email: ${EMAIL}`;
       return;
     }
 
-    if (!captchaToken) {
-      alert("Please complete the captcha.");
-      return;
-    }
-
     setSubmitting(true);
     const form = new FormData(e.target);
 
     form.append("access_key", ACCESS_KEY);
-    form.append("h-captcha-response", captchaToken);
     form.append(
       "items",
       JSON.stringify(
@@ -161,14 +148,6 @@ Email: ${EMAIL}`;
               className="w-full rounded border px-3 py-2"
               placeholder="Any details, reference, or WhatsApp number"
             ></textarea>
-          </div>
-
-          {/* hCaptcha */}
-          <div className="mt-2">
-            <HCaptcha
-              sitekey={SITE_KEY}
-              onVerify={setCaptchaToken}
-            />
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 mt-3">
