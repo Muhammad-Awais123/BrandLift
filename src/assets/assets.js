@@ -82,11 +82,11 @@ export const teamData = [
   },
   {
     name: 'Arfa',
-    title: 'CEO & Meta Ads Expert',
+    title: 'Meta Ads Expert',
     image: female
   },
   {
-    name: 'Fatima',
+    name: 'Areeha',
     title: 'Graphic Designer',
     image: female
   },
